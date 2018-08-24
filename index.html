@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+
+<!-- slider doesn't work
+tried to make qpe0620_button and qpe0621_button to switch in between, works: NEEDS TOGGLE TO TURN QPE IN GENERAL ON *****
+opacity for QPE needs is done (no label tho so add html/css for that)
+date slider/buttons for QPF needs to be made (like QPE) ***** NEEDS TO WORK W TOGGLE AS WELL
+basemaps need to be fixed ********** USE PORTER CODE?
+ LOOK PRETTIER must *************** IF IT LOOKS GOOD HOPEFULLY NOBODY WILL NOTICE --->
+
+
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset=utf-8 />
+    <!--initiate meta data -->
+    <title> Flood Response Resources (SEES 2018)</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <link rel="stylesheet" href="floodresponse.css"/>
+    <!-- Load Leaflet from CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
+          integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+          crossorigin=""/>
+    <!--<link rel="stylesheet" href="leaflet-layerscontrol-buttons.css" />-->
+
+    <!--<script src="leaflet-layerscontrol-buttons.js"></script>-->
+    <link rel="stylesheet" type="text/css" href="floodresponse.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
+            integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
+            crossorigin=""></script>
+
+    <!-- Load Esri Leaflet from CDN -->
+    <script src="https://unpkg.com/esri-leaflet@2.2.1/dist/esri-leaflet.js"
+            integrity="sha512-6BBVttv13OVrrUSoGmy9/aIVHateyIEGFaQxqnzCgXT9LNCAQ1Cxxj43R6Eq0ynydS7a7bLLfmEWwXFiO6lW2g=="
+            crossorigin=""></script>
+
+    <!-- Load JQuery -->
+
+    <!-- map setup-->
+
+    <!-- basemap bar-->
+
+    <style>
+
+        #map{height:700px; width:90%; left:160px;}
+        .legend {background:white; line-height : 1.5em}
+        .legend i {width: 5em; float: left}
+
+    </style>
+
+
+
+</head>
+
+<body style ="background-color: black">
+<div class="a">
+    <h1 style = "text-decoration: underline">Flood Response Resources (SEES 2018)</h1>
+</div>
+
+
+<div class="sidenav">
+    <h3 style = "color: deepskyblue; text-decoration: underline; font-size: 17.5px; text-align: center">Layer Controls</h3>
+    <p1 id = "LayerToggleID" style = "color: yellow;text-decoration: underline; font-size: 15px;">Layer Toggles</p1><br>
+
+    <input type = "checkbox" id="pov_button">
+    <label for="pov_button" style = "font-size: 12px; text-align: left" >Poverty</label><br>
+
+    <input type = "checkbox" id="pop_button" style = "font-size: 11px">
+    <label for="pop_button" style = "font-size: 12px; text-align: left" >Population Density</label><br>
+
+    <input type = "checkbox" id="sm_button" style = "font-size: 11px">
+    <label for="sm_button" style = "font-size: 12px; text-align: left" >Soil Moisture</label><br>
+
+    <input type = "checkbox" id="lake_lev" style = "font-size: 11px">
+    <label for="lake_lev" style = "font-size: 12px; text-align: left" >Lake Levels</label><br><br>
+    <div style = "text-align: center">
+    <p1 class = "center" style = "color: yellow;text-decoration: underline; font-size: 15px; text-align: center">Opacity Sliders</p1>
+    <p style="color:deepskyblue;font-size: 13px;text-align: center"> Poverty by County</p>
+    <input id = "povSlider" class = "slide" style = "text-align: center" type="range" min="0" max="1" step="0.1" value=".5">
+    <p style="color:deepskyblue; font-size: 13px;text-align: center">Population Density </p>
+    <input style="text-align: center" id = "popSlider" class = "slide" type="range" min="0" max="1" step="0.1" value=".5">
+    <p style="color:deepskyblue;font-size: 13px; text-align: center">Soil Moisture </p>
+
+    <input style="text-align: center" id = "qpfSlider" class = "slide" type="range" min="0" max="1" step="0.1" value=".5">
+    <p style="color:deepskyblue;font-size: 13px; text-align: center">Lake Levels </p>
+    <input style="text-align: center" id = "lklSlider" class = "slide" type="range" min="0" max="1" step="0.1" value=".5">
+
+    <br><br>
+    </div>
+    <div id="basemaps-wrapper" class="leaflet-bar" >
+        <p1 class = "center" style = "color: yellow; text-decoration: underline;font-size: 15px; font-family: Arial Black,Arial Bold,Gadget,sans-serif">Basemap Options</p1>
+        <select name="basemapsChanger" id="basemapsChanger" >
+            <option value="Topographic">Topographic</option>
+            <option value="Streets">Streets</option>
+            <option value="NationalGeographic">National Geographic</option>
+            <option value="Oceans">Oceans</option>
+            <option value="Gray">Gray</option>
+            <option value="DarkGray">Dark Gray</option>
+            <option value="Imagery">Imagery</option>
+            <option value="ImageryClarity" >Imagery (Clarity)</option>
+            <option value="ImageryFirefly">Imagery (Firefly)</option>
+            <option value="ShadedRelief">Shaded Relief</option>
+            <option value="Physical">Physical</option>
+        </select>
+    </div>
+
+
+</div>
+
+<div class="sidenavright">
+    <br><br><br>
+
+    <h3 style = "color: deepskyblue; text-decoration: underline; font-size: 17.5px; text-align: center">Precipitation Controls</h3>
+
+    <p1 class = "center" style = "color: yellow;text-decoration: underline; font-size: 15px; text-align: center">QPE Opacity Slider</p1><br><br>
+    <input id = "QPEOpacSlider" class = "slide" style = "text-align: center" type="range" min="0" max="1" step="0.1" value=".5"> <br> <br>
+    <input type = "button" id="qpe0620_button">
+    <label for="qpe0620_button" style = "font-size: 12px; text-align: left" >QPE 06/20/18</label><br><br>
+    <input type = "button" id="qpe0621_button">
+    <label for="qpe0621_button" style = "font-size: 12px; text-align: left" >QPE 06/21/18</label><br><br>
+    <input type = "button" id="qpe0622_button">
+    <label for="qpe0622_button" style = "font-size: 12px; text-align: left" >QPE 06/22/18</label><br><br>
+
+
+    <p1 class = "center" style = "color: yellow;text-decoration: underline; font-size: 15px; text-align: center">QPF Opacity Slider</p1><br><br>
+    <input id = "QPFOpacSlider" class = "slide" style = "text-align: center" type="range" min="0" max="1" step="0.1" value=".5"> <br> <br>
+
+    <input type = "button" id="qpf0623_button">
+    <label for="qpf0623_button" style = "font-size: 12px; text-align: left" >QPF 06/23/18</label><br><br>
+
+    <input type = "button" id="qpf0624_button">
+    <label for="qpf0624_button" style = "font-size: 12px; text-align: left" >QPF 06/24/18</label><br><br>
+
+    <input type = "button" id="qpf0625_button">
+    <label for="qpf0625_button" style = "font-size: 12px; text-align: left" >QPF 06/25/18</label><br><br>
+
+
+</div>
+
+
+
+
+
+
+<div id="map"></div>
+
+<div id="popLegend"><img src="Legends/popleg.png" width="150" height="210"/></div>
+<div id="qpeLegend"><img src="Legends/QPELegend.png" width="150" height="300"/></div>
+<div id="qpfLegend"><img src="Legends/QPFLegend.png" width="150" height="170"/></div>
+<div id="soilMoistLegend"><img src="Legends/soilMoistLeg.png" width="150" height="300"/></div>
+
+
+<!-- <dialog open>This map represents Flood Response Data for the state of Texas. Information included consists of poverty demographics,
+    population density, water bin levels, precipitation forecast, and soil moisture. </dialog>
+--->
+<script>
+
+    $( document ).ready(function(){
+
+    // add poverty demographic layer
+        var map = L.map('map', ).setView([32,-100], 5);
+        var layer = L.esri.basemapLayer('Topographic').addTo(map);
+        var layerLabels;
+        var povertyDem = L.esri.dynamicMapLayer({url:'http://129.116.70.182:6080/arcgis/rest/services/SEES/Texas_PovertyDistribution/MapServer'});
+        var popDensity = L.esri.dynamicMapLayer({url:'http://129.116.70.182:6080/arcgis/rest/services/SEES/Texas_Population_PopDensity/MapServer'});
+        var QPF = L.esri.dynamicMapLayer({url:'http://129.116.70.182:6080/arcgis/rest/services/SEES/QPF_20180723/MapServer'});
+        var SoilMoisture = L.esri.dynamicMapLayer({url:'http://129.116.70.182:6080/arcgis/rest/services/ClippedGLDAS_RS_Flat/MapServer'});
+        var QPF23 = L.esri.dynamicMapLayer({url:'http://129.116.70.182:6080/arcgis/rest/services/SEES/QPF_180723/MapServer'});
+        var QPF24 = L.esri.dynamicMapLayer({url:'http://129.116.70.182:6080/arcgis/rest/services/SEES/QPF_0724/MapServer'});
+        var QPF25 = L.esri.dynamicMapLayer({url:'http://129.116.70.182:6080/arcgis/rest/services/SEES/QPF_180725/MapServer'});
+        var QPE0621Raster = L.esri.dynamicMapLayer({url:"http://129.116.70.182:6080/arcgis/rest/services/SEES/QPE_Raster_20180621/MapServer"});
+        var QPE0621Points = L.esri.dynamicMapLayer({url:"http://129.116.70.182:6080/arcgis/rest/services/SEES/QPE_Points_20180621/MapServer"});
+        var QPE0620Raster = L.esri.dynamicMapLayer({url:"http://129.116.70.182:6080/arcgis/rest/services/SEES/QPE_Raster_20180620/MapServer"});
+        var QPE0620Points = L.esri.dynamicMapLayer({url:"http://129.116.70.182:6080/arcgis/rest/services/SEES/QPE_Points_20180620/MapServer"});
+        var QPE0622Raster = L.esri.dynamicMapLayer({url:"http://129.116.70.182:6080/arcgis/rest/services/SEES/QPE_Raster_20180622/MapServer"});
+        var lakesURL = "https://waterdatafortexas.org/reservoirs/statewide/recent-conditions.geojson";
+        var proxy = 'https://cors-anywhere.herokuapp.com/';
+        var lakeLevels;
+
+
+
+// overal
+// set map variable
+
+
+
+        // \/ start lakes code
+
+
+
+        var geojsonMarkerOptions10 = {
+            radius: 8,
+            fillColor: "#ff0fbb",
+            color: "#ff0fbb",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.45
+        };
+        var geojsonMarkerOptions20 = {
+            radius: 8,
+            fillColor: "#6151cc",
+            color: "#6151cc",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.45
+        };
+        var geojsonMarkerOptions30 = {
+            radius: 8,
+            fillColor: "#1119cc",
+            color: "#1119cc",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.45
+        };
+        var geojsonMarkerOptions40 = {
+            radius: 10,
+            fillColor: "#34c7cc",
+            color: "#34c7cc",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.45
+        };
+        var geojsonMarkerOptions50 = {
+            radius: 10,
+            fillColor: "#2fcc74",
+            color: "#2fcc74",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.45
+        };
+        var geojsonMarkerOptions60 = {
+            radius: 10,
+            fillColor: "#2fcc18",
+            color: "#2fcc18",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.45
+        };
+        var geojsonMarkerOptions70 = {
+            radius: 12,
+            fillColor: "#a0cc4f",
+            color: "#a0cc4f",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.45
+        };
+        var geojsonMarkerOptions80 = {
+            radius: 12,
+            fillColor: "#cccc00",
+            color: "#cccc00",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.45
+        };
+        var geojsonMarkerOptions90 = {
+            radius: 12,
+            fillColor: "#cc6c0f",
+            color: "#cc6c0f",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.45
+        };
+        var geojsonMarkerOptions100 = {
+            radius: 15,
+            fillColor: "#cc000c",
+            color: "#cc000c",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.45
+        };
+        var geojsonMarkerOptionsDefault = {
+            radius: 5,
+            fillColor: "#000000",
+            color: "#000000",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.45
+        };
+
+        $.getJSON(proxy+lakesURL, function(data){
+            lakeLevels = L.geoJSON(data,{
+                pointToLayer: function (feature, latlng) {
+                    //console.log(feature.properties.percent_full);
+                    switch (true) {
+                        case (feature.properties.percent_full < 10): return L.circleMarker(latlng, geojsonMarkerOptions10);
+                        case (feature.properties.percent_full < 20): return L.circleMarker(latlng, geojsonMarkerOptions20);
+                        case (feature.properties.percent_full < 30): return L.circleMarker(latlng, geojsonMarkerOptions30);
+                        case (feature.properties.percent_full < 40): return L.circleMarker(latlng, geojsonMarkerOptions40);
+                        case (feature.properties.percent_full < 50): return L.circleMarker(latlng, geojsonMarkerOptions50);
+                        case (feature.properties.percent_full < 60): return L.circleMarker(latlng, geojsonMarkerOptions60);
+                        case (feature.properties.percent_full < 70): return L.circleMarker(latlng, geojsonMarkerOptions70);
+                        case (feature.properties.percent_full < 80): return L.circleMarker(latlng, geojsonMarkerOptions80);
+                        case (feature.properties.percent_full < 90): return L.circleMarker(latlng, geojsonMarkerOptions90);
+                        case (feature.properties.percent_full >= 91): return L.circleMarker(latlng, geojsonMarkerOptions100);
+                        default: return L.circleMarker(latlng, geojsonMarkerOptionsDefault);
+                    }
+                },
+                onEachFeature: function(feature, layer) {
+                    layer.bindPopup("Percent of river full as of " + feature.properties.timestamp + ": " + feature.properties.percent_full + "%");
+                }
+            })
+        });
+        //end lakes code
+
+
+        // L.control.layers(null, overlayMaps).addTo(map);
+        var layer = L.esri.basemapLayer('Topographic').addTo(map);
+        var layerLabels;
+
+        $('#basemapsChanger').on('change',function(){
+
+            changeBasemap(this.value);
+
+        });
+
+
+
+        function setBasemap(basemap) {
+
+            if (layer) {
+                map.removeLayer(layer);
+            }
+            layer = L.esri.basemapLayer(basemap);
+            map.addLayer(layer);
+            if (layerLabels) {
+                map.removeLayer(layerLabels);
+            }
+
+            if (basemap === 'ShadedRelief'
+                || basemap === 'Oceans'
+                || basemap === 'Gray'
+                || basemap === 'DarkGray'
+                || basemap === 'Terrain'
+            ) {
+                layerLabels = L.esri.basemapLayer(basemap + 'Labels');
+                map.addLayer(layerLabels);
+            } else if (basemap.includes('Imagery')) {
+                layerLabels = L.esri.basemapLayer('ImageryLabels');
+                map.addLayer(layerLabels);
+            }
+        }
+
+        function changeBasemap(basemapsIn){
+
+            var basemap = basemapsIn;
+
+            setBasemap(basemap);
+        }
+
+        $('#povSlider').on("change",function()
+        {
+            povertyDem.setOpacity(this.value);
+        });
+
+        $('#QPEOpacSlider').on("change",function()
+        {
+           QPE0621Raster.setOpacity(this.value);
+           QPE0620Raster.setOpacity(this.value);
+           QPE0622Raster.setOpacity(this.value);
+        });
+
+        $('#QPFOpacSlider').on("change",function()
+        {
+            QPF23.setOpacity(this.value);
+            QPF24.setOpacity(this.value);
+            QPF25.setOpacity(this.value);
+        });
+
+        $('#popSlider').on("change",function()
+        {
+            popDensity.setOpacity(this.value);
+        });
+
+        $('#slmSlider').on("change",function()
+        {
+            SoilMoisture.setOpacity(this.value);
+        });
+
+        $('#qpfSlider').on("change",function()
+        {
+            console.log(this.value);
+            QPF23.setOpacity(this.value);
+        });
+
+        $('#lklSlider').on("change",function()
+        {
+            console.log(this.value);
+            lakeLevels.setStyle({fillOpacity: this.value, opacity: this.value})
+        });
+
+        //console.log(this.value);
+        //lakeLevels.setStyle({fillOpacity: this.value, opacity: this.value})
+
+
+
+
+
+
+
+        $('#pov_button').on("click", function()
+        {
+            if (map.hasLayer(povertyDem))
+            {
+                map.removeLayer(povertyDem);
+
+            }
+            else
+            {
+                map.addLayer(povertyDem);
+            }
+        });
+
+        $('#pop_button').on("click", function()
+        {
+            if (map.hasLayer(popDensity))
+            {
+                map.removeLayer(popDensity);
+            }
+            else
+            {
+                map.addLayer(popDensity);
+            }
+        });
+
+        $('#sm_button').on("click", function()
+        {
+            if (map.hasLayer(SoilMoisture))
+            {
+                map.removeLayer(SoilMoisture);
+            }
+            else
+            {
+                map.addLayer(SoilMoisture);
+            }
+        });
+
+        $('#qpf_button').on("click", function()
+        {
+            if (map.hasLayer(QPF23))
+            {
+                map.removeLayer(QPF23);
+            }
+            else
+            {
+                map.addLayer(QPF23);
+            }
+        });
+
+        $('#lake_lev').on("click", function()
+        {
+            if (map.hasLayer(lakeLevels))
+            {
+                map.removeLayer(lakeLevels);
+            }
+            else
+            {
+                map.addLayer(lakeLevels);
+            }
+        });
+
+
+        $('#qpe0621_button').on("click", function()
+        {
+            if (map.hasLayer(QPE0621Raster))
+            {
+                map.removeLayer(QPE0621Raster);
+
+            }
+            else
+            {
+                map.addLayer(QPE0621Raster);
+
+
+            }
+        });
+
+        $('#qpe0620_button').on("click", function()
+        {
+            if (map.hasLayer(QPE0620Raster))
+            {
+                map.removeLayer(QPE0620Raster);
+
+            }
+            else
+            {
+                map.addLayer(QPE0620Raster);
+
+
+            }
+        });
+
+        $('#qpe0622_button').on("click", function()
+        {
+            if (map.hasLayer(QPE0622Raster))
+            {
+                map.removeLayer(QPE0622Raster);
+
+            }
+            else
+            {
+                map.addLayer(QPE0622Raster);
+
+
+            }
+        });
+
+        $('#qpf0623_button').on("click", function()
+        {
+            if (map.hasLayer(QPF23))
+            {
+                map.removeLayer(QPF23);
+
+            }
+            else
+            {
+                map.addLayer(QPF23);
+
+
+            }
+        });
+
+        $('#qpf0624_button').on("click", function()
+        {
+            if (map.hasLayer(QPF24))
+            {
+                map.removeLayer(QPF24);
+
+            }
+            else
+            {
+                map.addLayer(QPF24);
+
+
+            }
+        });
+
+        $('#qpf0625_button').on("click", function()
+        {
+            if (map.hasLayer(QPF25))
+            {
+                map.removeLayer(QPF25);
+
+            }
+            else
+            {
+                map.addLayer(QPF25);
+
+
+            }
+        });
+
+
+        function updateOpacityPov(value) {
+             //In case you are using layer group. Also if you define the Layer group as Global variable, then you can call getLayers() directly.
+            if(povertyDem!=undefined)
+                povertyDem.setOpacity(value);
+        }
+
+        function updateOpacityPop(value) {
+            //In case you are using layer group. Also if you define the Layer group as Global variable, then you can call getLayers() directly.
+            if(popDensity!=undefined)
+                popDensity.setOpacity(value);
+        }
+
+        function updateOpacityQPF(value) {
+            var interactive_layer = featuremaps.getLayers()[2]; //In case you are using layer group. Also if you define the Layer group as Global variable, then you can call getLayers() directly.
+            if(interactive_layer!=undefined)
+                interactive_layer.setOpacity(value);
+        }
+
+        function updateOpacitySM(value) {
+            var interactive_layer = featuremaps.getLayers()[3]; //In case you are using layer group. Also if you define the Layer group as Global variable, then you can call getLayers() directly.
+            if(interactive_layer!=undefined)
+                interactive_layer.setOpacity(value);
+        }
+
+        function updateOpacityLL(value) {
+            var interactive_layer = featuremaps.getLayers()[4]; //In case you are using layer group. Also if you define the Layer group as Global variable, then you can call getLayers() directly.
+            if(interactive_layer!=undefined)
+                interactive_layer.setOpacity(value);
+        }
+
+
+
+
+
+        <!--Precipitation 07-23-2018 Popups-->
+        QPF23.bindPopup(function (error, featureCollection) {
+            if(error || featureCollection.features.length === 0) {
+                return false;
+            } else {
+                return 'Quantitative Precipitation Forecast: ' + featureCollection.features[0].properties.QPF + ' inches';
+            }
+        });
+
+        <!--Precipitation 07-24-2018 Popups-->
+        QPF24.bindPopup(function (error, featureCollection) {
+            if(error || featureCollection.features.length === 0) {
+                return false;
+            } else {
+                return 'Quantitative Precipitation Forecast: ' + featureCollection.features[0].properties.QPF + ' inches';
+            }
+        });
+
+        <!--Precipitation 07-25-2018 Popups-->
+        QPF25.bindPopup(function (error, featureCollection) {
+            if(error || featureCollection.features.length === 0) {
+                return false;
+            } else {
+                return 'Quantitative Precipitation Forecast: ' + featureCollection.features[0].properties.QPF + ' inches';
+            }
+        });
+
+        <!--Poverty Demographics Percentage Popups-->
+        povertyDem.bindPopup(function (error, featureCollection) {
+            if(error || featureCollection.features.length === 0) {
+                return false;
+            } else {
+                return featureCollection.features[0].properties.NAME+" County's "+
+                    ' percentage in poverty: ' + featureCollection.features[0].properties.Percentage_In_Poverty + '%';
+            }
+        });
+
+        <!--Soil Moisture Popups-->
+        QPF25.bindPopup(function (error, featureCollection) {
+            if(error || featureCollection.features.length === 0) {
+                return false;
+            } else {
+                return 'Quantitative Precipitation Forecast: ' + featureCollection.features[0].properties.QPF + ' inches';
+            }
+        });
+
+    });
+</script>
+</body>
+</html>

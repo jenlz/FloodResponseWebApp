@@ -1,0 +1,150 @@
+.sidenav {
+    height: 100%;
+    width: 167px;
+    position: fixed;
+    z-index: 9000;
+    top: 65px;
+    left: 0;
+    background-color: black;
+    color: #00BFFF;
+    overflow-x: hidden;
+    padding-top: 20px;
+    font-family: Arial Black,Arial Bold,Gadget,sans-serif;
+}
+
+.sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: underline;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    font-family: Arial Black,Arial Bold,Gadget,sans-serif;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenavright {
+    height: 100%;
+    width: 170px;
+    position: fixed;
+    z-index: 9000;
+    top: 0;
+    right: 0;
+    background-color: black;
+    color: #00BFFF;
+    overflow-x: hidden;
+    padding-top: 20px;
+    font-family: Arial Black,Arial Bold,Gadget,sans-serif;
+    text-align: center;
+}
+
+.sidenavright a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: underline;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    font-family: Arial Black,Arial Bold,Gadget,sans-serif;
+}
+
+.sidenavright a:hover {
+    color: #f1f1f1;
+}
+
+.main {
+    margin-left: 160px; /* Same as the width of the sidenav */
+    font-size: 28px; /* Increased text to enable scrolling */
+    padding: 0px 10px;
+    background-color: #111;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+div.a {
+    text-align: center;
+    color: #00BFFF;
+    font-family: Arial Black,Arial Bold,Gadget,sans-serif;
+}
+
+
+title.b {
+    font-family: Arial Black,Arial Bold,Gadget,sans-serif;
+}
+
+.leaflet-bar{
+    font-family: Arial Black,Arial Bold,Gadget,sans-serif;
+    text-align: center;
+}
+
+.slide {
+    -webkit-appearance: none;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    text-align: center;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slide:hover {
+    opacity: 1;
+}
+
+.slide::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background:#00BFFF;
+    cursor: pointer;
+}
+
+.slide::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #00BFFF;
+    cursor: pointer;
+}
+
+#LayerToggleID{
+    padding-left: 22px;
+}
+
+
+#popLegend{
+    position: absolute;
+    z-index: 9000;
+    left: 330px;
+    top: 560px;
+    max-width: 150px;
+    max-height: 210px;
+}
+#qpeLegend{
+    position: absolute;
+    z-index: 9000;
+    left: 175px;
+    top: 470px;
+    max-width: 150px;
+    max-height: 300px;
+}
+#qpfLegend {
+    position: absolute;
+    z-index: 9000;
+    right: 330px;
+    top: 600px;
+    max-width: 150px;
+    max-height: 170px;
+}
+#soilMoistLegend{
+    position: absolute;
+    z-index: 9000;
+    right: 175px;
+    top: 470px;
+
+}
