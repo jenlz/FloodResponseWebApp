@@ -1,3 +1,4 @@
+<!-- archika's edits as of 9/14: soil moisture slider works, qpe pop-ups work, qpe points layer added to on and off functionality -->
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/html">
@@ -72,7 +73,7 @@
     <input style="text-align: center" id = "popSlider" class = "slide" type="range" min="0" max="1" step="0.1" value=".5">
     <p style="color:deepskyblue;font-size: 13px; text-align: center">Soil Moisture </p>
 
-    <input style="text-align: center" id = "qpfSlider" class = "slide" type="range" min="0" max="1" step="0.1" value=".5">
+    <input style="text-align: center" id = "slmSlider" class = "slide" type="range" min="0" max="1" step="0.1" value=".5">
     <p style="color:deepskyblue;font-size: 13px; text-align: center">Lake Levels </p>
     <input style="text-align: center" id = "lklSlider" class = "slide" type="range" min="0" max="1" step="0.1" value=".5">
 
@@ -117,14 +118,70 @@
     <input id = "QPFOpacSlider" class = "slide" style = "text-align: center" type="range" min="0" max="1" step="0.1" value=".5"> <br> <br>
 
     <input type = "button" id="qpf0623_button">
-    <label for="qpf0623_button" style = "font-size: 12px; text-align: left" >QPF 06/23/18</label><br><br>
+    <label for="qpf0623_button" style = "font-size: 12px; text-align: left" >QPF 07/23/18</label><br><br>
 
     <input type = "button" id="qpf0624_button">
-    <label for="qpf0624_button" style = "font-size: 12px; text-align: left" >QPF 06/24/18</label><br><br>
+    <label for="qpf0624_button" style = "font-size: 12px; text-align: left" >QPF 07/24/18</label><br><br>
 
     <input type = "button" id="qpf0625_button">
-    <label for="qpf0625_button" style = "font-size: 12px; text-align: left" >QPF 06/25/18</label><br><br>
+    <label for="qpf0625_button" style = "font-size: 12px; text-align: left" >QPF 07/25/18</label><br><br>
+    <button id="infomodal_button">Open Information  Box</button>
+    <button id="meetteam_button">Meet the Team!</button>
 
+
+</div>
+
+<div id="InfoModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h1>Information</h1>
+        <p>This map was created by Archika Dogra, Emily Lee, Jenny Zhang, and Harish Bommakanti as part of the 2018 NASA SEES
+        Internship in Austin, Texas under the mentorship of Mr. Brent Porter. It is intended to contextualize precipitation
+        data with demographic information and other weather trends, ultimately serving as a Flood Response Resource.</p>
+        <h2>Left Side Navigation Bar</h2>
+        <p> Under Layer Toggles you can turn layers describing poverty demographics, population density, soil moisture,
+            and lake levels on and off. Lake levels are updated every day.</p>
+        <p>Under Opacity Sliders you can change the visibility of the individual layers, with right-most being the strongest visibility.</p>
+        <P>Under Basemap options there is a drop down menu that presents 11 different options for the basemap.</P>
+        <h2>Right Side Navigation Bar</h2>
+        <p> Quantitative Precipitation Estimates in inches for the listed dates are available. Click the buttons
+            next to them to turn the layers on and off. The opacity slider controls the visibility of the layer when turned on.</p>
+        <p> Quantitative Precipitation Forecasts in inches for the listed dates are available. Click the buttons
+            next to them to turn the layers on and off. The opacity slider controls the visibility of the layer when turned on.</p>
+
+        <h5>Some layers include pop-ups with more information about the regions you clicked on, more specific than the legends. These
+        layers include poverty, lake levels, QPE, and QPF data.</h5>
+    </div>
+
+</div>
+
+<div id="MeetTeam" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close2">&times;</span>
+        <h1>Meet the Team!</h1>
+        <h2>Archika Dogra (2020)</h2>
+        <p>Archika Dogra attends Interlake High School in Seattle, Washington. Alongside being an NASA intern for the SEES program,
+            Archika has interned in machine learning labs at Stanford University and the University of Washington. In her school,
+            Archika is the President of Technology Student Association, Secretary of AI Club, and an avid participant of
+            National Science Honor Society. She also runs The EduSTEM Initiative, an international organization educating,
+            encouraging, and empowering minorities in STEM to explore science and technology as a future career path. Archika is passionate
+            about diversity and inclusivity in STEM, all-world feminism, and writing. In her free time
+            she likes to create mobile applications, play softball, debate, watch dance videos, and pet dogs.</p>
+        <h2>Harish Bommakanti (2020)</h2>
+        <p>Harish Bommakanti is the top of his class at Rouse High School in Leander, Texas. A current junior, Harish found
+        that his interests lie mainly in computer science, math, and physics. He participates as the Software lead of
+        his robotics team of his high school, making it to world championships in his freshman year. Additionally he
+        participates in UIL math and computer science competitions at Rouse. In the NASA SEES internship, Harish was able to extend his
+        coding expertise and learn more about data science with top notch staff at the UT Austin Center for Space Research. He
+        plans to apply for more NASA opportunities such as the High School Aerospace Scholars Program. In the future, Harish plans
+        to major in engineering. </p>
+
+
+    </div>
 
 </div>
 
@@ -154,7 +211,6 @@
         var layerLabels;
         var povertyDem = L.esri.dynamicMapLayer({url:'http://129.116.70.182:6080/arcgis/rest/services/SEES/Texas_PovertyDistribution/MapServer'});
         var popDensity = L.esri.dynamicMapLayer({url:'http://129.116.70.182:6080/arcgis/rest/services/SEES/Texas_Population_PopDensity/MapServer'});
-        var QPF = L.esri.dynamicMapLayer({url:'http://129.116.70.182:6080/arcgis/rest/services/SEES/QPF_20180723/MapServer'});
         var SoilMoisture = L.esri.dynamicMapLayer({url:'http://129.116.70.182:6080/arcgis/rest/services/ClippedGLDAS_RS_Flat/MapServer'});
         var QPF23 = L.esri.dynamicMapLayer({url:'http://129.116.70.182:6080/arcgis/rest/services/SEES/QPF_180723/MapServer'});
         var QPF24 = L.esri.dynamicMapLayer({url:'http://129.116.70.182:6080/arcgis/rest/services/SEES/QPF_0724/MapServer'});
@@ -164,14 +220,44 @@
         var QPE0620Raster = L.esri.dynamicMapLayer({url:"http://129.116.70.182:6080/arcgis/rest/services/SEES/QPE_Raster_20180620/MapServer"});
         var QPE0620Points = L.esri.dynamicMapLayer({url:"http://129.116.70.182:6080/arcgis/rest/services/SEES/QPE_Points_20180620/MapServer"});
         var QPE0622Raster = L.esri.dynamicMapLayer({url:"http://129.116.70.182:6080/arcgis/rest/services/SEES/QPE_Raster_20180622/MapServer"});
+        var QPE0622Points = L.esri.dynamicMapLayer({url:"http://129.116.70.182:6080/arcgis/rest/services/SEES/QPE_Points_20180622/MapServer"});
         var lakesURL = "https://waterdatafortexas.org/reservoirs/statewide/recent-conditions.geojson";
         var proxy = 'https://cors-anywhere.herokuapp.com/';
         var lakeLevels;
 
+        var infomodal = document.getElementById('InfoModal');
+        var meetteam = document.getElementById("MeetTeam");
+
+        var btn_infomodal = document.getElementById("infomodal_button");
+        var span_infomodal = document.getElementsByClassName("close")[0];
+
+        btn_infomodal.onclick = function() {
+            infomodal.style.display = "block";
+        };
+
+        span_infomodal.onclick = function() {
+            infomodal.style.display = "none";
+        };
+// MEET THE TEAM BTN FUNCTIONALITY
+        var btn_meetteam = document.getElementById("meetteam_button")
+        var span_meetteam = document.getElementsByClassName("close2")[0];
+
+        btn_meetteam.onclick = function() {
+            meetteam.style.display = "block";
+        };
+
+        span_meetteam.onclick = function() {
+            meetteam.style.display = "none";
+        };
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                infomodal.style.display = "none";
+                meetteam.style.display = "none";
+            }
+        };
 
 
-// overal
-// set map variable
 
 
 
@@ -449,48 +535,54 @@
             }
         });
 
-
-        $('#qpe0621_button').on("click", function()
-        {
-            if (map.hasLayer(QPE0621Raster))
-            {
-                map.removeLayer(QPE0621Raster);
-
-            }
-            else
-            {
-                map.addLayer(QPE0621Raster);
-
-
-            }
-        });
-
         $('#qpe0620_button').on("click", function()
         {
-            if (map.hasLayer(QPE0620Raster))
+            if (map.hasLayer((QPE0620Raster) && (QPE0620Points)))
             {
                 map.removeLayer(QPE0620Raster);
+                map.removeLayer(QPE0620Points);
 
             }
             else
             {
                 map.addLayer(QPE0620Raster);
-
+                map.addLayer(QPE0620Points);
+                QPE0620Points.setOpacity(0);
 
             }
         });
 
+        $('#qpe0621_button').on("click", function()
+        {
+            if (map.hasLayer((QPE0621Raster) && (QPE0621Points)))
+            {
+                map.removeLayer(QPE0621Raster);
+                map.removeLayer(QPE0621Points);
+
+            }
+            else
+            {
+                map.addLayer(QPE0621Raster);
+                map.addLayer(QPE0621Points);
+                QPE0621Points.setOpacity(0);
+
+            }
+        });
+
+
         $('#qpe0622_button').on("click", function()
         {
-            if (map.hasLayer(QPE0622Raster))
+            if (map.hasLayer((QPE0622Raster) && (QPE0622Points)))
             {
                 map.removeLayer(QPE0622Raster);
+                map.removeLayer(QPE0622Points);
 
             }
             else
             {
                 map.addLayer(QPE0622Raster);
-
+                map.addLayer(QPE0622Points);
+                QPE0622Points.setOpacity(0);
 
             }
         });
@@ -541,46 +633,12 @@
         });
 
 
-        function updateOpacityPov(value) {
-             //In case you are using layer group. Also if you define the Layer group as Global variable, then you can call getLayers() directly.
-            if(povertyDem!=undefined)
-                povertyDem.setOpacity(value);
-        }
-
-        function updateOpacityPop(value) {
-            //In case you are using layer group. Also if you define the Layer group as Global variable, then you can call getLayers() directly.
-            if(popDensity!=undefined)
-                popDensity.setOpacity(value);
-        }
-
-        function updateOpacityQPF(value) {
-            var interactive_layer = featuremaps.getLayers()[2]; //In case you are using layer group. Also if you define the Layer group as Global variable, then you can call getLayers() directly.
-            if(interactive_layer!=undefined)
-                interactive_layer.setOpacity(value);
-        }
-
-        function updateOpacitySM(value) {
-            var interactive_layer = featuremaps.getLayers()[3]; //In case you are using layer group. Also if you define the Layer group as Global variable, then you can call getLayers() directly.
-            if(interactive_layer!=undefined)
-                interactive_layer.setOpacity(value);
-        }
-
-        function updateOpacityLL(value) {
-            var interactive_layer = featuremaps.getLayers()[4]; //In case you are using layer group. Also if you define the Layer group as Global variable, then you can call getLayers() directly.
-            if(interactive_layer!=undefined)
-                interactive_layer.setOpacity(value);
-        }
-
-
-
-
-
         <!--Precipitation 07-23-2018 Popups-->
         QPF23.bindPopup(function (error, featureCollection) {
             if(error || featureCollection.features.length === 0) {
                 return false;
             } else {
-                return 'Quantitative Precipitation Forecast: ' + featureCollection.features[0].properties.QPF + ' inches';
+                return 'Quantitative Precipitation Forecast 7/23: ' + featureCollection.features[0].properties.QPF + ' inches';
             }
         });
 
@@ -589,7 +647,7 @@
             if(error || featureCollection.features.length === 0) {
                 return false;
             } else {
-                return 'Quantitative Precipitation Forecast: ' + featureCollection.features[0].properties.QPF + ' inches';
+                return 'Quantitative Precipitation Forecast 7/24: ' + featureCollection.features[0].properties.QPF + ' inches';
             }
         });
 
@@ -598,7 +656,7 @@
             if(error || featureCollection.features.length === 0) {
                 return false;
             } else {
-                return 'Quantitative Precipitation Forecast: ' + featureCollection.features[0].properties.QPF + ' inches';
+                return 'Quantitative Precipitation Forecast 7/25: ' + featureCollection.features[0].properties.QPF + ' inches';
             }
         });
 
@@ -612,14 +670,31 @@
             }
         });
 
-        <!--Soil Moisture Popups-->
-        QPF25.bindPopup(function (error, featureCollection) {
+        QPE0620Points.bindPopup(function (error, featureCollection) {
             if(error || featureCollection.features.length === 0) {
                 return false;
             } else {
-                return 'Quantitative Precipitation Forecast: ' + featureCollection.features[0].properties.QPF + ' inches';
+                return " Quantitative Precipitation Estimate 6/20/18: " + featureCollection.features[0].properties.Globvalue + ' inches';
             }
         });
+
+        QPE0621Points.bindPopup(function (error, featureCollection) {
+            if(error || featureCollection.features.length === 0) {
+                return false;
+            } else {
+                return " Quantitative Precipitation Estimate 6/21/18: " + featureCollection.features[0].properties.Globvalue + ' inches';
+            }
+        });
+
+        QPE0622Points.bindPopup(function (error, featureCollection) {
+            if(error || featureCollection.features.length === 0) {
+                return false;
+            } else {
+                return " Quantitative Precipitation Estimate 6/22/18: " + featureCollection.features[0].properties.Globvalue + ' inches';
+            }
+        });
+
+
 
     });
 </script>
