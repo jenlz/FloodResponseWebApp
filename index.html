@@ -1,7 +1,10 @@
+<!-- Jenny's edits as of 11/19: Date Sliders for QPF/QPE Layers work, Compatible with pop-ups, Fixed starting position of opacity sliders to start at maximum, Fixed modal scrolling problems -->
 <!-- archika's edits as of 9/14: soil moisture slider works, qpe pop-ups work, qpe points layer added to on and off functionality -->
+
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/html">
+<html>
+
 <head>
     <meta charset=utf-8 />
     <!--initiate meta data -->
@@ -26,12 +29,6 @@
             integrity="sha512-6BBVttv13OVrrUSoGmy9/aIVHateyIEGFaQxqnzCgXT9LNCAQ1Cxxj43R6Eq0ynydS7a7bLLfmEWwXFiO6lW2g=="
             crossorigin=""></script>
 
-    <!-- Load JQuery -->
-
-    <!-- map setup-->
-
-    <!-- basemap bar-->
-
     <style>
 
         #map{height:700px; width:90%; left:160px;}
@@ -39,16 +36,12 @@
         .legend i {width: 5em; float: left}
 
     </style>
-
-
-
 </head>
 
 <body style ="background-color: black">
 <div class="a">
     <h1 style = "text-decoration: underline">Flood Response Resources (SEES 2018)</h1>
 </div>
-
 
 <div class="sidenav">
     <h3 style = "color: deepskyblue; text-decoration: underline; font-size: 17.5px; text-align: center">Layer Controls</h3>
@@ -66,16 +59,16 @@
     <input type = "checkbox" id="lake_lev" style = "font-size: 11px">
     <label for="lake_lev" style = "font-size: 12px; text-align: left" >Lake Levels</label><br><br>
     <div style = "text-align: center">
+
     <p1 class = "center" style = "color: yellow;text-decoration: underline; font-size: 15px; text-align: center">Opacity Sliders</p1>
     <p style="color:deepskyblue;font-size: 13px;text-align: center"> Poverty by County</p>
-    <input id = "povSlider" class = "slide" style = "text-align: center" type="range" min="0" max="1" step="0.1" value=".5">
+    <input id = "povSlider" class = "slide" style = "text-align: center" type="range" min="0" max="1" step="0.1" value="1">
     <p style="color:deepskyblue; font-size: 13px;text-align: center">Population Density </p>
-    <input style="text-align: center" id = "popSlider" class = "slide" type="range" min="0" max="1" step="0.1" value=".5">
+    <input style="text-align: center" id = "popSlider" class = "slide" type="range" min="0" max="1" step="0.1" value="1">
     <p style="color:deepskyblue;font-size: 13px; text-align: center">Soil Moisture </p>
-
-    <input style="text-align: center" id = "slmSlider" class = "slide" type="range" min="0" max="1" step="0.1" value=".5">
+    <input style="text-align: center" id = "qpfSlider" class = "slide" type="range" min="0" max="1" step="0.1" value="1">
     <p style="color:deepskyblue;font-size: 13px; text-align: center">Lake Levels </p>
-    <input style="text-align: center" id = "lklSlider" class = "slide" type="range" min="0" max="1" step="0.1" value=".5">
+    <input style="text-align: center" id = "lklSlider" class = "slide" type="range" min="0" max="1" step="0.1" value="1">
 
     <br><br>
     </div>
@@ -104,30 +97,24 @@
 
     <h3 style = "color: deepskyblue; text-decoration: underline; font-size: 17.5px; text-align: center">Precipitation Controls</h3>
 
-    <p1 class = "center" style = "color: yellow;text-decoration: underline; font-size: 15px; text-align: center">QPE Opacity Slider</p1><br><br>
-    <input id = "QPEOpacSlider" class = "slide" style = "text-align: center" type="range" min="0" max="1" step="0.1" value=".5"> <br> <br>
-    <input type = "button" id="qpe0620_button">
-    <label for="qpe0620_button" style = "font-size: 12px; text-align: left" >QPE 06/20/18</label><br><br>
-    <input type = "button" id="qpe0621_button">
-    <label for="qpe0621_button" style = "font-size: 12px; text-align: left" >QPE 06/21/18</label><br><br>
-    <input type = "button" id="qpe0622_button">
-    <label for="qpe0622_button" style = "font-size: 12px; text-align: left" >QPE 06/22/18</label><br><br>
+    <p1 class = "center" style = "color: yellow;text-decoration: underline; font-size: 15px; text-align: center">QPE Sliders</p1><br>
+    <label for="QPEOpacSlider" style = "font-size: 12px; text-align: left" >QPE Opacity</label><br>
+    <input id = "QPEOpacSlider" class = "slide" style = "text-align: center" type="range" min="0" max="1" step="0.1" value="1"> <br> <br>
+    <input type = "checkbox" id="QPE_button">
+    <label for="QPE_button" style = "font-size: 12px; text-align: left" >QPE Layers</label><br>
+    <input id = "QPEDate" class = "slide" style = "text-align: center" type="range" min="0" max="2" step="1" value="0"> 
+    <label id = "QPEdate" for="QPEDate" style = "font-size: 12px; text-align: left" >Date: 06/20/18</label><br><br>
+    
+    <p1 class = "center" style = "color: yellow;text-decoration: underline; font-size: 15px; text-align: center">QPF Sliders</p1><br>
+    <label for="QPFOpacSlider" style = "font-size: 12px; text-align: left" >QPF Opacity</label><br>
+    <input id = "QPFOpacSlider" class = "slide" style = "text-align: center" type="range" min="0" max="1" step="0.1" value="1"> <br> <br>
+    <input type = "checkbox" id="QPF_button">
+    <label for="QPF_button" style = "font-size: 12px; text-align: left" >QPF Layers</label><br>
+    <input id = "QPFDate" class = "slide" style = "text-align: center" type="range" min="0" max="2" step="1" value="0">
+    <label id = "QPFdate" for="QPFDate" style = "font-size: 12px; text-align: left" >Date: 07/23/18</label><br><br><br>
 
-
-    <p1 class = "center" style = "color: yellow;text-decoration: underline; font-size: 15px; text-align: center">QPF Opacity Slider</p1><br><br>
-    <input id = "QPFOpacSlider" class = "slide" style = "text-align: center" type="range" min="0" max="1" step="0.1" value=".5"> <br> <br>
-
-    <input type = "button" id="qpf0623_button">
-    <label for="qpf0623_button" style = "font-size: 12px; text-align: left" >QPF 07/23/18</label><br><br>
-
-    <input type = "button" id="qpf0624_button">
-    <label for="qpf0624_button" style = "font-size: 12px; text-align: left" >QPF 07/24/18</label><br><br>
-
-    <input type = "button" id="qpf0625_button">
-    <label for="qpf0625_button" style = "font-size: 12px; text-align: left" >QPF 07/25/18</label><br><br>
     <button id="infomodal_button">Open Information  Box</button>
     <button id="meetteam_button">Meet the Team!</button>
-
 
 </div>
 
@@ -146,23 +133,33 @@
         <p>Under Opacity Sliders you can change the visibility of the individual layers, with right-most being the strongest visibility.</p>
         <P>Under Basemap options there is a drop down menu that presents 11 different options for the basemap.</P>
         <h2>Right Side Navigation Bar</h2>
-        <p> Quantitative Precipitation Estimates in inches for the listed dates are available. Click the buttons
-            next to them to turn the layers on and off. The opacity slider controls the visibility of the layer when turned on.</p>
-        <p> Quantitative Precipitation Forecasts in inches for the listed dates are available. Click the buttons
-            next to them to turn the layers on and off. The opacity slider controls the visibility of the layer when turned on.</p>
+        <p> Quantitative Precipitation Estimates in inches for three different dates are available. Check the checkbox to turn on the layer type, and move the date
+            slider in order to change the layer shown. The opacity slider controls the visibility of the layer when turned on.</p>
+        <p> Quantitative Precipitation Forecasts in inches for the listed dates are available. Check the checkbox to turn on the layer type, and move the date
+                slider in order to change the layer shown. The opacity slider controls the visibility of the layer when turned on.</p>
 
-        <h5>Some layers include pop-ups with more information about the regions you clicked on, more specific than the legends. These
+        <h5>Some layers include pop-ups with more information about the regions you clicked on and offer more specific data than the legends. These
         layers include poverty, lake levels, QPE, and QPF data.</h5>
     </div>
 
 </div>
 
-<div id="MeetTeam" class="modal">
-
-    <!-- Modal content -->
-    <div class="modal-content">
+<div class="modal" id="MeetTeam">
+    <div class="modal-guts">
         <span class="close2">&times;</span>
         <h1>Meet the Team!</h1>
+        <h2>Jenny Zhang (2019)</h2>
+        <p>Jenny Zhang is an aspiring computer scientist and roboticist from Austin, Texas, who maintains a STEM YouTube channel 
+            (<a href="https://www.youtube.com/channel/UCWxniypszfDKwHYhlCfRxjA" target="_blank">Origin Studios</a>)
+            about anything from LEGOs and Rubik's Cubes to physics tutorials. As the Simplified Chinese advocate for Khan Academy, 
+            she  manages a translation effort to bring a "world-class education to anyone, anywhere", and writes programs for the international 
+            language advocate community to help other teams increase workflow efficiency. She is the President of Engineering Club, Webmaster of STEM Academy Ambassadors,
+            and Treasurer of Mu Alpha Theta at Westwood High School, and represents her school in UIL Computer Science. She is also the Student Lead for a research effort 
+            to find free quarks with Mr.Paul Hudspeth and Dr.Tim Urban using a modification of Robert Millikan's oil drop experiment, and has created technical drawings and 
+            computer simulations. In her free time, she loves to make puns, NXT robots, animations, and CAD models, 
+            as well as geek out over Harry Potter, Lord of the Rings, and Star Wars.</p>
+        <h2>Emily Lee (2019)</h2>
+        <p>Biography coming soon...</p>
         <h2>Archika Dogra (2020)</h2>
         <p>Archika Dogra attends Interlake High School in Seattle, Washington. Alongside being an NASA intern for the SEES program,
             Archika has interned in machine learning labs at Stanford University and the University of Washington. In her school,
@@ -184,15 +181,8 @@
             the Emergency Response Group - the Institute for Disaster Analytics. There he is an application developer, system architect 
             and technical lead. He is very interested in spatial applications that can provide and integrate real-time data and machine
             learning. In his free time he likes to run trails with his dog, spend time with his family and write.</p>
-
     </div>
-
 </div>
-
-
-
-
-
 
 <div id="map"></div>
 
@@ -201,10 +191,9 @@
 <div id="qpfLegend"><img src="Legends/QPFLegend.png" width="150" height="170"/></div>
 <div id="soilMoistLegend"><img src="Legends/soilMoistLeg.png" width="150" height="300"/></div>
 
-
 <!-- <dialog open>This map represents Flood Response Data for the state of Texas. Information included consists of poverty demographics,
-    population density, water bin levels, precipitation forecast, and soil moisture. </dialog>
---->
+    population density, water bin levels, precipitation forecast, and soil moisture. </dialog>--->
+
 <script>
 
     $( document ).ready(function(){
@@ -261,13 +250,7 @@
             }
         };
 
-
-
-
-
-        // \/ start lakes code
-
-
+        //start lakes code
 
         var geojsonMarkerOptions10 = {
             radius: 8,
@@ -383,8 +366,6 @@
         });
         //end lakes code
 
-
-        // L.control.layers(null, overlayMaps).addTo(map);
         var layer = L.esri.basemapLayer('Topographic').addTo(map);
         var layerLabels;
 
@@ -393,8 +374,6 @@
             changeBasemap(this.value);
 
         });
-
-
 
         function setBasemap(basemap) {
 
@@ -428,6 +407,97 @@
             setBasemap(basemap);
         }
 
+        $('#QPE_button').on("click", function()
+        {
+            if(this.checked == true){
+                if(QPEDate.value == 0){
+                    map.addLayer(QPE0620Raster);
+                    map.addLayer(QPE0620Points);
+                }
+                else if(QPEDate.value == 1){
+                    map.addLayer(QPE0621Raster);
+                    map.addLayer(QPE0621Points);
+                }
+                else if(QPEDate.value == 2){
+                    map.addLayer(QPE0622Raster);
+                    map.addLayer(QPE0622Points);
+                }
+            }
+            else{
+                map.removeLayer(QPE0620Raster);
+                map.removeLayer(QPE0621Raster);
+                map.removeLayer(QPE0622Raster);
+                map.removeLayer(QPE0620Points);
+                map.removeLayer(QPE0621Points);
+                map.removeLayer(QPE0622Points);
+            }
+        });
+
+        $('#QPEDate').on("change",function()
+        {
+            if(QPE_button.checked == true){
+                map.removeLayer(QPE0620Raster);
+                map.removeLayer(QPE0621Raster);
+                map.removeLayer(QPE0622Raster);
+                if(this.value == 0){
+                    map.addLayer(QPE0620Raster);
+                }
+                else if(this.value == 1){
+                    map.addLayer(QPE0621Raster);
+                }
+                else if(this.value == 2){
+                    map.addLayer(QPE0622Raster);
+                }
+            }
+            if(this.value == 0){
+                document.getElementById('QPEdate').innerHTML = 'Date: 06/20/18';
+            }
+            else if(this.value == 1){
+                document.getElementById('QPEdate').innerHTML = 'Date: 06/21/18';
+            }
+            else if(this.value == 2){
+                document.getElementById('QPEdate').innerHTML = 'Date: 06/22/18';
+            }
+        });
+
+        $('#QPF_button').on("click", function()
+        {
+            if(this.checked == true){
+                if(QPFDate.value == 0)
+                   map.addLayer(QPF23);
+                else if(QPFDate.value == 1)
+                    map.addLayer(QPF24);
+                else if(QPFDate.value == 2)
+                    map.addLayer(QPF25);
+            }
+            else{
+                map.removeLayer(QPF23);
+                map.removeLayer(QPF24);
+                map.removeLayer(QPF25);
+            }
+        });
+
+        $('#QPFDate').on("change",function()
+        {
+            if(QPF_button.checked == true){
+                map.removeLayer(QPF23);
+                map.removeLayer(QPF24);
+                map.removeLayer(QPF25);
+                if(this.value == 0)
+                    map.addLayer(QPF23);
+                else if(this.value == 1)
+                    map.addLayer(QPF24);
+                else if(this.value == 2)
+                    map.addLayer(QPF25);
+            }
+            if(this.value == 0)
+                document.getElementById('QPFdate').innerHTML = 'Date: 07/23/18';
+            else if(this.value == 1)
+                document.getElementById('QPFdate').innerHTML = 'Date: 07/24/18';
+            else if(this.value == 2)
+                document.getElementById('QPFdate').innerHTML = 'Date: 07/25/18';
+        });
+
         $('#povSlider').on("change",function()
         {
             povertyDem.setOpacity(this.value);
@@ -457,26 +527,11 @@
             SoilMoisture.setOpacity(this.value);
         });
 
-        $('#qpfSlider').on("change",function()
-        {
-            console.log(this.value);
-            QPF23.setOpacity(this.value);
-        });
-
         $('#lklSlider').on("change",function()
         {
             console.log(this.value);
             lakeLevels.setStyle({fillOpacity: this.value, opacity: this.value})
         });
-
-        //console.log(this.value);
-        //lakeLevels.setStyle({fillOpacity: this.value, opacity: this.value})
-
-
-
-
-
-
 
         $('#pov_button').on("click", function()
         {
@@ -515,18 +570,6 @@
             }
         });
 
-        $('#qpf_button').on("click", function()
-        {
-            if (map.hasLayer(QPF23))
-            {
-                map.removeLayer(QPF23);
-            }
-            else
-            {
-                map.addLayer(QPF23);
-            }
-        });
-
         $('#lake_lev').on("click", function()
         {
             if (map.hasLayer(lakeLevels))
@@ -539,105 +582,38 @@
             }
         });
 
-        $('#qpe0620_button').on("click", function()
-        {
-            if (map.hasLayer((QPE0620Raster) && (QPE0620Points)))
-            {
-                map.removeLayer(QPE0620Raster);
-                map.removeLayer(QPE0620Points);
+        //Precipitation 07-23-2018 Popups
+        function updateOpacityPov(value) {
+             //In case you are using layer group. Also if you define the Layer group as Global variable, then you can call getLayers() directly.
+            if(povertyDem!=undefined)
+                povertyDem.setOpacity(value);
+        }
 
-            }
-            else
-            {
-                map.addLayer(QPE0620Raster);
-                map.addLayer(QPE0620Points);
-                QPE0620Points.setOpacity(0);
+        function updateOpacityPop(value) {
+            //In case you are using layer group. Also if you define the Layer group as Global variable, then you can call getLayers() directly.
+            if(popDensity!=undefined)
+                popDensity.setOpacity(value);
+        }
 
-            }
-        });
+        function updateOpacityQPF(value) {
+            var interactive_layer = featuremaps.getLayers()[2]; //In case you are using layer group. Also if you define the Layer group as Global variable, then you can call getLayers() directly.
+            if(interactive_layer!=undefined)
+                interactive_layer.setOpacity(value);
+        }
 
-        $('#qpe0621_button').on("click", function()
-        {
-            if (map.hasLayer((QPE0621Raster) && (QPE0621Points)))
-            {
-                map.removeLayer(QPE0621Raster);
-                map.removeLayer(QPE0621Points);
+        function updateOpacitySM(value) {
+            var interactive_layer = featuremaps.getLayers()[3]; //In case you are using layer group. Also if you define the Layer group as Global variable, then you can call getLayers() directly.
+            if(interactive_layer!=undefined)
+                interactive_layer.setOpacity(value);
+        }
 
-            }
-            else
-            {
-                map.addLayer(QPE0621Raster);
-                map.addLayer(QPE0621Points);
-                QPE0621Points.setOpacity(0);
+        function updateOpacityLL(value) {
+            var interactive_layer = featuremaps.getLayers()[4]; //In case you are using layer group. Also if you define the Layer group as Global variable, then you can call getLayers() directly.
+            if(interactive_layer!=undefined)
+                interactive_layer.setOpacity(value);
+        }
 
-            }
-        });
-
-
-        $('#qpe0622_button').on("click", function()
-        {
-            if (map.hasLayer((QPE0622Raster) && (QPE0622Points)))
-            {
-                map.removeLayer(QPE0622Raster);
-                map.removeLayer(QPE0622Points);
-
-            }
-            else
-            {
-                map.addLayer(QPE0622Raster);
-                map.addLayer(QPE0622Points);
-                QPE0622Points.setOpacity(0);
-
-            }
-        });
-
-        $('#qpf0623_button').on("click", function()
-        {
-            if (map.hasLayer(QPF23))
-            {
-                map.removeLayer(QPF23);
-
-            }
-            else
-            {
-                map.addLayer(QPF23);
-
-
-            }
-        });
-
-        $('#qpf0624_button').on("click", function()
-        {
-            if (map.hasLayer(QPF24))
-            {
-                map.removeLayer(QPF24);
-
-            }
-            else
-            {
-                map.addLayer(QPF24);
-
-
-            }
-        });
-
-        $('#qpf0625_button').on("click", function()
-        {
-            if (map.hasLayer(QPF25))
-            {
-                map.removeLayer(QPF25);
-
-            }
-            else
-            {
-                map.addLayer(QPF25);
-
-
-            }
-        });
-
-
-        <!--Precipitation 07-23-2018 Popups-->
+        //Precipitation 07-23-2018 Popups
         QPF23.bindPopup(function (error, featureCollection) {
             if(error || featureCollection.features.length === 0) {
                 return false;
@@ -646,7 +622,7 @@
             }
         });
 
-        <!--Precipitation 07-24-2018 Popups-->
+        //Precipitation 07-24-2018 Popups
         QPF24.bindPopup(function (error, featureCollection) {
             if(error || featureCollection.features.length === 0) {
                 return false;
@@ -655,7 +631,7 @@
             }
         });
 
-        <!--Precipitation 07-25-2018 Popups-->
+        //Precipitation 07-25-2018 Popups
         QPF25.bindPopup(function (error, featureCollection) {
             if(error || featureCollection.features.length === 0) {
                 return false;
@@ -664,7 +640,7 @@
             }
         });
 
-        <!--Poverty Demographics Percentage Popups-->
+        //Poverty Demographics Percentage Popups
         povertyDem.bindPopup(function (error, featureCollection) {
             if(error || featureCollection.features.length === 0) {
                 return false;
@@ -683,24 +659,26 @@
         });
 
         QPE0621Points.bindPopup(function (error, featureCollection) {
-            if(error || featureCollection.features.length === 0) {
-                return false;
-            } else {
-                return " Quantitative Precipitation Estimate 6/21/18: " + featureCollection.features[0].properties.Globvalue + ' inches';
-            }
+            //Soil Moisture Popups
+            QPF25.bindPopup(function (error, featureCollection) {
+                if(error || featureCollection.features.length === 0) {
+                    return false;
+                } else {
+                    return " Quantitative Precipitation Estimate 6/21/18: " + featureCollection.features[0].properties.Globvalue + ' inches';
+                }
+            });
+
+            QPE0622Points.bindPopup(function (error, featureCollection) {
+                if(error || featureCollection.features.length === 0) {
+                    return false;
+                } 
+                else {
+                    return " Quantitative Precipitation Estimate 6/22/18: " + featureCollection.features[0].properties.Globvalue + ' inches';
+                }
+            });
         });
-
-        QPE0622Points.bindPopup(function (error, featureCollection) {
-            if(error || featureCollection.features.length === 0) {
-                return false;
-            } else {
-                return " Quantitative Precipitation Estimate 6/22/18: " + featureCollection.features[0].properties.Globvalue + ' inches';
-            }
-        });
-
-
-
     });
 </script>
 </body>
+
 </html>

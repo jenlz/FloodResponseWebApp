@@ -154,8 +154,9 @@ title.b {
     position: fixed; /* Stay in place */
     z-index: 10000; /* Sit on top */
     padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
@@ -163,7 +164,19 @@ title.b {
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-/* Modal Content */
+.modal-guts {
+    position: fixed;
+    background-color: #fefefe;
+    border: 1px solid #888;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    padding: 20px 50px 20px 20px;
+    overflow: auto;
+}
+
 .modal-content {
     background-color: #fefefe;
     margin: auto;
