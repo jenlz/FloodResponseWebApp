@@ -1,4 +1,5 @@
-<!-- Jenny's edits as of 11/19: Date Sliders for QPF/QPE Layers work, Compatible with pop-ups, Fixed starting position of opacity sliders to start at maximum, Fixed modal scrolling problems -->
+<!-- Jenny's edits as of 11/19: Date Sliders for QPF/QPE Layers work, Compatible with pop-ups, Fixed starting position of opacity sliders to start at maximum, 
+Fixed modal scrolling problems, Clean up opacity updates -->
 <!-- archika's edits as of 9/14: soil moisture slider works, qpe pop-ups work, qpe points layer added to on and off functionality -->
 
 <!DOCTYPE html>
@@ -66,9 +67,9 @@
     <p style="color:deepskyblue; font-size: 13px;text-align: center">Population Density </p>
     <input style="text-align: center" id = "popSlider" class = "slide" type="range" min="0" max="1" step="0.1" value="1">
     <p style="color:deepskyblue;font-size: 13px; text-align: center">Soil Moisture </p>
-    <input style="text-align: center" id = "qpfSlider" class = "slide" type="range" min="0" max="1" step="0.1" value="1">
+    <input style="text-align: center" id = "slmSlider" class = "slide" type="range" min="0" max="1" step="0.1" value="1">
     <p style="color:deepskyblue;font-size: 13px; text-align: center">Lake Levels </p>
-    <input style="text-align: center" id = "lklSlider" class = "slide" type="range" min="0" max="1" step="0.1" value="1">
+    <input style="text-align: center" id = "lklSlider" class = "slide" type="range" min="0" max="1" step="0.1" value=".5">
 
     <br><br>
     </div>
@@ -413,14 +414,17 @@
                 if(QPEDate.value == 0){
                     map.addLayer(QPE0620Raster);
                     map.addLayer(QPE0620Points);
+                    QPE0620Points.setOpacity(0);
                 }
                 else if(QPEDate.value == 1){
                     map.addLayer(QPE0621Raster);
                     map.addLayer(QPE0621Points);
+                    QPE0621Points.setOpacity(0);
                 }
                 else if(QPEDate.value == 2){
                     map.addLayer(QPE0622Raster);
                     map.addLayer(QPE0622Points);
+                    QPE0622Points.setOpacity(0);
                 }
             }
             else{
@@ -439,14 +443,23 @@
                 map.removeLayer(QPE0620Raster);
                 map.removeLayer(QPE0621Raster);
                 map.removeLayer(QPE0622Raster);
+                map.removeLayer(QPE0620Points);
+                map.removeLayer(QPE0621Points);
+                map.removeLayer(QPE0622Points);
                 if(this.value == 0){
                     map.addLayer(QPE0620Raster);
+                    map.addLayer(QPE0620Points);
+                    QPE0620Points.setOpacity(0);
                 }
                 else if(this.value == 1){
                     map.addLayer(QPE0621Raster);
+                    map.addLayer(QPE0621Points);
+                    QPE0621Points.setOpacity(0);
                 }
                 else if(this.value == 2){
                     map.addLayer(QPE0622Raster);
+                    map.addLayer(QPE0622Points);
+                    QPE0622Points.setOpacity(0);
                 }
             }
             if(this.value == 0){
@@ -529,7 +542,6 @@
 
         $('#lklSlider').on("change",function()
         {
-            console.log(this.value);
             lakeLevels.setStyle({fillOpacity: this.value, opacity: this.value})
         });
 
@@ -589,30 +601,6 @@
                 povertyDem.setOpacity(value);
         }
 
-        function updateOpacityPop(value) {
-            //In case you are using layer group. Also if you define the Layer group as Global variable, then you can call getLayers() directly.
-            if(popDensity!=undefined)
-                popDensity.setOpacity(value);
-        }
-
-        function updateOpacityQPF(value) {
-            var interactive_layer = featuremaps.getLayers()[2]; //In case you are using layer group. Also if you define the Layer group as Global variable, then you can call getLayers() directly.
-            if(interactive_layer!=undefined)
-                interactive_layer.setOpacity(value);
-        }
-
-        function updateOpacitySM(value) {
-            var interactive_layer = featuremaps.getLayers()[3]; //In case you are using layer group. Also if you define the Layer group as Global variable, then you can call getLayers() directly.
-            if(interactive_layer!=undefined)
-                interactive_layer.setOpacity(value);
-        }
-
-        function updateOpacityLL(value) {
-            var interactive_layer = featuremaps.getLayers()[4]; //In case you are using layer group. Also if you define the Layer group as Global variable, then you can call getLayers() directly.
-            if(interactive_layer!=undefined)
-                interactive_layer.setOpacity(value);
-        }
-
         //Precipitation 07-23-2018 Popups
         QPF23.bindPopup(function (error, featureCollection) {
             if(error || featureCollection.features.length === 0) {
@@ -659,23 +647,20 @@
         });
 
         QPE0621Points.bindPopup(function (error, featureCollection) {
-            //Soil Moisture Popups
-            QPF25.bindPopup(function (error, featureCollection) {
                 if(error || featureCollection.features.length === 0) {
                     return false;
                 } else {
                     return " Quantitative Precipitation Estimate 6/21/18: " + featureCollection.features[0].properties.Globvalue + ' inches';
                 }
-            });
+        });
 
-            QPE0622Points.bindPopup(function (error, featureCollection) {
+        QPE0622Points.bindPopup(function (error, featureCollection) {
                 if(error || featureCollection.features.length === 0) {
                     return false;
                 } 
                 else {
                     return " Quantitative Precipitation Estimate 6/22/18: " + featureCollection.features[0].properties.Globvalue + ' inches';
                 }
-            });
         });
     });
 </script>
