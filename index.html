@@ -1,6 +1,7 @@
 <!-- Jenny's edits as of 11/19: Date Sliders for QPF/QPE Layers work, Compatible with pop-ups, Fixed starting position of opacity sliders to start at maximum, 
 Fixed modal scrolling problems, Clean up opacity updates -->
 <!-- archika's edits as of 9/14: soil moisture slider works, qpe pop-ups work, qpe points layer added to on and off functionality -->
+<!--Harish's edits as of 11/21: Fixed up CSS: changing font, margins/padding values, adding <br>'s here and there-->
 
 <!DOCTYPE html>
 
@@ -29,6 +30,8 @@ Fixed modal scrolling problems, Clean up opacity updates -->
     <script src="https://unpkg.com/esri-leaflet@2.2.1/dist/esri-leaflet.js"
             integrity="sha512-6BBVttv13OVrrUSoGmy9/aIVHateyIEGFaQxqnzCgXT9LNCAQ1Cxxj43R6Eq0ynydS7a7bLLfmEWwXFiO6lW2g=="
             crossorigin=""></script>
+    <!-- Load CSS Google formats-->
+    <link href='https://fonts.googleapis.com/css?family=Doppio One' rel='stylesheet'>
 
     <style>
 
@@ -46,36 +49,44 @@ Fixed modal scrolling problems, Clean up opacity updates -->
 
 <div class="sidenav">
     <h3 style = "color: deepskyblue; text-decoration: underline; font-size: 17.5px; text-align: center">Layer Controls</h3>
-    <p1 id = "LayerToggleID" style = "color: yellow;text-decoration: underline; font-size: 15px;">Layer Toggles</p1><br>
+    <p1 id = "LayerToggleID" style = "color: yellow;text-decoration: underline; font-size: 15px;margin-left: -20px">Layer Toggles</p1><br><br>
 
-    <input type = "checkbox" id="pov_button">
-    <label for="pov_button" style = "font-size: 12px; text-align: left" >Poverty</label><br>
+    <label class ="container" for="pov_button" style = "font-size: 12px; text-align: left" >Poverty
+        <input type = "checkbox" id="pov_button">
+        <span class="checkmark"></span>
+    </label>
 
-    <input type = "checkbox" id="pop_button" style = "font-size: 11px">
-    <label for="pop_button" style = "font-size: 12px; text-align: left" >Population Density</label><br>
+    <label class ="container" for="pop_button" style = "font-size: 12px; text-align: left" >Population Density
+        <input type = "checkbox" id="pop_button" style = "font-size: 11px">
+        <span class="checkmark"></span>
+    </label>
 
-    <input type = "checkbox" id="sm_button" style = "font-size: 11px">
-    <label for="sm_button" style = "font-size: 12px; text-align: left" >Soil Moisture</label><br>
+    <label class ="container" for="sm_button" style = "font-size: 12px; text-align: left" >Soil Moisture
+        <input type = "checkbox" id="sm_button" style = "font-size: 11px">
+        <span class="checkmark"></span>
+    </label>
 
-    <input type = "checkbox" id="lake_lev" style = "font-size: 11px">
-    <label for="lake_lev" style = "font-size: 12px; text-align: left" >Lake Levels</label><br><br>
+    <label class ="container" for="lake_lev" style = "font-size: 12px; text-align: left" >Lake Levels
+        <input type = "checkbox" id="lake_lev" style = "font-size: 11px">
+        <span class="checkmark"></span>
+    </label><br><br>
     <div style = "text-align: center">
 
     <p1 class = "center" style = "color: yellow;text-decoration: underline; font-size: 15px; text-align: center">Opacity Sliders</p1>
-    <p style="color:deepskyblue;font-size: 13px;text-align: center"> Poverty by County</p>
+    <p style="color:deepskyblue;font-size: 13px;text-align: center; margin-bottom: 5px"> Poverty by County</p>
     <input id = "povSlider" class = "slide" style = "text-align: center" type="range" min="0" max="1" step="0.1" value="1">
-    <p style="color:deepskyblue; font-size: 13px;text-align: center">Population Density </p>
+    <p style="color:deepskyblue; font-size: 13px;text-align: center; margin-bottom: 5px">Population Density </p>
     <input style="text-align: center" id = "popSlider" class = "slide" type="range" min="0" max="1" step="0.1" value="1">
-    <p style="color:deepskyblue;font-size: 13px; text-align: center">Soil Moisture </p>
+    <p style="color:deepskyblue;font-size: 13px; text-align: center; margin-bottom: 5px">Soil Moisture </p>
     <input style="text-align: center" id = "slmSlider" class = "slide" type="range" min="0" max="1" step="0.1" value="1">
-    <p style="color:deepskyblue;font-size: 13px; text-align: center">Lake Levels </p>
-    <input style="text-align: center" id = "lklSlider" class = "slide" type="range" min="0" max="1" step="0.1" value=".5">
+    <p style="color:deepskyblue;font-size: 13px; text-align: center; margin-bottom: 5px">Lake Levels </p>
+    <input style="text-align: center" id = "lklSlider" class = "slide" type="range" min="0" max=".5" step="0.1" value="1">
 
     <br><br>
     </div>
     <div id="basemaps-wrapper" class="leaflet-bar" >
-        <p1 class = "center" style = "color: yellow; text-decoration: underline;font-size: 15px; font-family: Arial Black,Arial Bold,Gadget,sans-serif">Basemap Options</p1>
-        <select name="basemapsChanger" id="basemapsChanger" >
+        <p1 class = "center" style = "color: yellow; text-decoration: underline;font-size: 15px; font-family: 'Doppio One'">Basemap Options</p1>
+        <select class = "select" name="basemapsChanger" id="basemapsChanger" >
             <option value="Topographic">Topographic</option>
             <option value="Streets">Streets</option>
             <option value="NationalGeographic">National Geographic</option>
@@ -96,26 +107,33 @@ Fixed modal scrolling problems, Clean up opacity updates -->
 <div class="sidenavright">
     <br><br><br>
 
-    <h3 style = "color: deepskyblue; text-decoration: underline; font-size: 17.5px; text-align: center">Precipitation Controls</h3>
+    <h3 style = "color: deepskyblue; text-decoration: underline; font-size: 17.5px; text-align: center; font-family: 'Doppio One'">Precipitation Controls</h3>
 
-    <p1 class = "center" style = "color: yellow;text-decoration: underline; font-size: 15px; text-align: center">QPE Sliders</p1><br>
-    <label for="QPEOpacSlider" style = "font-size: 12px; text-align: left" >QPE Opacity</label><br>
+    <p1 class = "center" style = "color: yellow;text-decoration: underline; font-size: 15px; text-align: center">QPE Sliders</p1><br><br>
+    <label for="QPEOpacSlider" style = "font-size: 12px; text-align: left;" >QPE Opacity</label><br>
     <input id = "QPEOpacSlider" class = "slide" style = "text-align: center" type="range" min="0" max="1" step="0.1" value="1"> <br> <br>
-    <input type = "checkbox" id="QPE_button">
-    <label for="QPE_button" style = "font-size: 12px; text-align: left" >QPE Layers</label><br>
-    <input id = "QPEDate" class = "slide" style = "text-align: center" type="range" min="0" max="2" step="1" value="0"> 
-    <label id = "QPEdate" for="QPEDate" style = "font-size: 12px; text-align: left" >Date: 06/20/18</label><br><br>
     
-    <p1 class = "center" style = "color: yellow;text-decoration: underline; font-size: 15px; text-align: center">QPF Sliders</p1><br>
+    <label class = "container" for="QPE_button" style = "font-size: 12px; text-align: left; margin-left: 40px; margin-bottom: 5px" >QPE Layers
+        <input class = "checkmark" type = "checkbox" id="QPE_button">
+        <span class="checkmark"></span>
+    </label>
+    
+    <input id = "QPEDate" class = "slide" style = "text-align: center" type="range" min="0" max="2" step="1" value="0"><br> 
+    <label id = "QPEdate" for="QPEDate" style = "font-size: 12px; text-align: left" >Date: 06/20/18</label><br><br><br><br>
+    <p1 class = "center" style = "color: yellow;text-decoration: underline; font-size: 15px; text-align: center">QPF Sliders</p1><br><br>
     <label for="QPFOpacSlider" style = "font-size: 12px; text-align: left" >QPF Opacity</label><br>
-    <input id = "QPFOpacSlider" class = "slide" style = "text-align: center" type="range" min="0" max="1" step="0.1" value="1"> <br> <br>
-    <input type = "checkbox" id="QPF_button">
-    <label for="QPF_button" style = "font-size: 12px; text-align: left" >QPF Layers</label><br>
-    <input id = "QPFDate" class = "slide" style = "text-align: center" type="range" min="0" max="2" step="1" value="0">
+    <input id = "QPFOpacSlider" class = "slide" style = "text-align: center" type="range" min="0" max="1" step="0.1" value="1"> <br><br>
+    
+    <label class = "container" for="QPF_button" style = "font-size: 12px; text-align: left; margin-left: 40px; margin-bottom: 5px" >QPF Layers
+        <input class = "checkmark" type = "checkbox" id="QPF_button">
+        <span class="checkmark"></span>
+    </label>
+    
+    <input id = "QPFDate" class = "slide" style = "text-align: center" type="range" min="0" max="2" step="1" value="0"><br>
     <label id = "QPFdate" for="QPFDate" style = "font-size: 12px; text-align: left" >Date: 07/23/18</label><br><br><br>
 
-    <button id="infomodal_button">Open Information  Box</button>
-    <button id="meetteam_button">Meet the Team!</button>
+    <button class = "select" id="infomodal_button" style = "margin-bottom: 10px">Open Information Box</button>
+    <button class = "select" id="meetteam_button">Meet the Team!</button>
 
 </div>
 
@@ -124,22 +142,22 @@ Fixed modal scrolling problems, Clean up opacity updates -->
     <!-- Modal content -->
     <div class="modal-content">
         <span class="close">&times;</span>
-        <h1>Information</h1>
+        <h1 style = "color: yellow; margin-bottom: -15px">Background</h1>
         <p>This map was created by Archika Dogra, Emily Lee, Jenny Zhang, and Harish Bommakanti as part of the 2018 NASA SEES
         Internship in Austin, Texas under the mentorship of Mr. Brent Porter. It is intended to contextualize precipitation
         data with demographic information and other weather trends, ultimately serving as a Flood Response Resource.</p>
-        <h2>Left Side Navigation Bar</h2>
-        <p> Under Layer Toggles you can turn layers describing poverty demographics, population density, soil moisture,
-            and lake levels on and off. Lake levels are updated every day.</p>
-        <p>Under Opacity Sliders you can change the visibility of the individual layers, with right-most being the strongest visibility.</p>
-        <P>Under Basemap options there is a drop down menu that presents 11 different options for the basemap.</P>
-        <h2>Right Side Navigation Bar</h2>
+        <h1 style = "color: yellow; margin-bottom: -15px">Left Side Navigation Bar</h2>
+        <p> • Under Layer Toggles you can turn layers describing poverty demographics, population density, soil moisture,
+            and lake levels on and off. Lake levels are updated every day. <br>
+            • Under Opacity Sliders you can change the visibility of the individual layers, with right-most being the strongest visibility.<br>
+            • Under Basemap options there is a drop down menu that presents 11 different options for the basemap.</p>
+        <h2 style = "color: yellow; margin-bottom: -15px">Right Side Navigation Bar</h2>
         <p> Quantitative Precipitation Estimates in inches for three different dates are available. Check the checkbox to turn on the layer type, and move the date
             slider in order to change the layer shown. The opacity slider controls the visibility of the layer when turned on.</p>
         <p> Quantitative Precipitation Forecasts in inches for the listed dates are available. Check the checkbox to turn on the layer type, and move the date
                 slider in order to change the layer shown. The opacity slider controls the visibility of the layer when turned on.</p>
 
-        <h5>Some layers include pop-ups with more information about the regions you clicked on and offer more specific data than the legends. These
+        <h3>Some layers include pop-ups with more information about the regions you clicked on and offer more specific data than the legends. These
         layers include poverty, lake levels, QPE, and QPF data.</h5>
     </div>
 
@@ -148,8 +166,13 @@ Fixed modal scrolling problems, Clean up opacity updates -->
 <div class="modal" id="MeetTeam">
     <div class="modal-guts">
         <span class="close2">&times;</span>
-        <h1>Meet the Team!</h1>
-        <h2>Jenny Zhang (2019)</h2>
+        <h1 style = "text-align: center">Meet the Team!</h1>
+        <h2 style = "color: yellow; margin-bottom: -15px">Brent Porter</h2>
+        <p>Brent Porter is a SEES Project Scientist and Mentor to SEES Interns. He also works at the Center for Space Research with 
+            the Emergency Response Group - the Institute for Disaster Analytics. There he is an application developer, system architect 
+            and technical lead. He is very interested in spatial applications that can provide and integrate real-time data and machine
+            learning. In his free time he likes to run trails with his dog, spend time with his family and write.</p>
+        <h2 style = "color: yellow; margin-bottom: -15px">Jenny Zhang (Class of 2019)</h2>
         <p>Jenny Zhang is an aspiring computer scientist and roboticist from Austin, Texas, who maintains a STEM YouTube channel 
             (<a href="https://www.youtube.com/channel/UCWxniypszfDKwHYhlCfRxjA" target="_blank">Origin Studios</a>)
             about anything from LEGOs and Rubik's Cubes to physics tutorials. As the Simplified Chinese advocate for Khan Academy, 
@@ -159,7 +182,7 @@ Fixed modal scrolling problems, Clean up opacity updates -->
             to find free quarks with Mr.Paul Hudspeth and Dr.Tim Urban using a modification of Robert Millikan's oil drop experiment, and has created technical drawings and 
             computer simulations. In her free time, she loves to make puns, NXT robots, animations, and CAD models, 
             as well as geek out over Harry Potter, Lord of the Rings, and Star Wars.</p>
-        <h2>Emily Lee (2019)</h2>
+        <h2 style = "color: yellow; margin-bottom: -15px">Emily Lee (Class of 2019)</h2>
         <p>Emily Lee is a senior at Lowell High School in San Francisco, California. A peer mentor and a member of her school’s 
             honor society, she is active in Lowell's FIRST Robotics Competition Team, where she specializes in programming
             subsystems, teaches rookies how to program in Java, and helps assemble electronics and controllers on robots.  Over
@@ -168,7 +191,7 @@ Fixed modal scrolling problems, Clean up opacity updates -->
             for Grades 9-12 for her subject. During her spare time, she likes to participate in local hackathons, play video
             games, and draw random plants. She hopes to pursue a career that balances her love for computers, environmental
             science, or space exploration.</p>
-        <h2>Archika Dogra (2020)</h2>
+        <h2 style = "color: yellow; margin-bottom: -15px">Archika Dogra (Class of 2020)</h2>
         <p>Archika Dogra attends Interlake High School in Seattle, Washington. Alongside being an NASA intern for the SEES program,
             Archika has interned in machine learning labs at Stanford University and the University of Washington. In her school,
             Archika is the President of Technology Student Association, Secretary of AI Club, and an avid participant of
@@ -176,23 +199,18 @@ Fixed modal scrolling problems, Clean up opacity updates -->
             encouraging, and empowering minorities in STEM to explore science and technology as a future career path. Archika is passionate
             about diversity and inclusivity in STEM, all-world feminism, and writing. In her free time
             she likes to create mobile applications, play softball, debate, watch dance videos, and pet dogs.</p>
-        <h2>Harish Bommakanti (2020)</h2>
-        <p>Harish Bommakanti is the top of his class at Rouse High School in Leander, Texas. A current junior, Harish found
-        that his interests lie mainly in computer science, math, and physics. He participates as the Software lead of
-        his robotics team of his high school, making it to world championships in his freshman year. Additionally he
-        participates in UIL math and computer science competitions at Rouse. In the NASA SEES internship, Harish was able to extend his
-        coding expertise and learn more about data science with top notch staff at the UT Austin Center for Space Research. He
-        plans to apply for more NASA opportunities such as the High School Aerospace Scholars Program. In the future, Harish plans
-        to major in engineering. </p>
-        <h2>Brent Porter (????)</h2>
-        <p>Brent Porter is a SEES Project Scientist and Mentor to SEES Interns. He also works at the Center for Space Research with 
-            the Emergency Response Group - the Institute for Disaster Analytics. There he is an application developer, system architect 
-            and technical lead. He is very interested in spatial applications that can provide and integrate real-time data and machine
-            learning. In his free time he likes to run trails with his dog, spend time with his family and write.</p>
+        <h2 style = "color: yellow; margin-bottom: -15px">Harish Bommakanti (Class of 2020)</h2>
+        <p>Harish Bommakanti is the top of his class at Rouse High School in Leander, Texas. His interests lie in 
+            all things STEM, and he finds robotics to be a perfect culimination of STEM concepts. 
+            In his robotics team at Rouse, he is a key software member, a tutor to new members, and an electronics enthusiast.He also participates
+            in the UIL math and computer science clubs at Rouse. Harish is also involved in NASA's High School Aerospace
+            Scholar program, where he explores his interest in engineering and space exploration. When he's not involved in academics, Harish enjoys making
+            memes, watching movies, and playing video games.
+            In the future, Harish plans to pursue engineering and computer science and hopefully contribute to the NASA organization. </p>
     </div>
 </div>
 
-<div id="map"></div>
+<div id="map" ></div>
 
 <div id="popLegend"><img src="Legends/popleg.png" width="150" height="210"/></div>
 <div id="qpeLegend"><img src="Legends/QPELegend.png" width="150" height="300"/></div>

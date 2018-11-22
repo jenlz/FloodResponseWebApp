@@ -9,7 +9,8 @@
     color: #00BFFF;
     overflow-x: hidden;
     padding-top: 20px;
-    font-family: Arial Black,Arial Bold,Gadget,sans-serif;
+    font-family: 'Doppio One';
+    text-align: center;
 }
 
 .sidenav a {
@@ -18,7 +19,6 @@
     font-size: 25px;
     color: #818181;
     display: block;
-    font-family: Arial Black,Arial Bold,Gadget,sans-serif;
 }
 
 .sidenav a:hover {
@@ -36,8 +36,8 @@
     color: #00BFFF;
     overflow-x: hidden;
     padding-top: 20px;
-    font-family: Arial Black,Arial Bold,Gadget,sans-serif;
     text-align: center;
+    font-family: 'Doppio One';
 }
 
 .sidenavright a {
@@ -46,7 +46,7 @@
     font-size: 25px;
     color: #818181;
     display: block;
-    font-family: Arial Black,Arial Bold,Gadget,sans-serif;
+    font-family: 'Doppio One';
 }
 
 .sidenavright a:hover {
@@ -68,7 +68,7 @@
 div.a {
     text-align: center;
     color: #00BFFF;
-    font-family: Arial Black,Arial Bold,Gadget,sans-serif;
+    font-family: 'Doppio One';
 }
 
 
@@ -162,11 +162,13 @@ title.b {
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    font-family: 'Doppio One';
 }
 
 .modal-guts {
     position: fixed;
-    background-color: #fefefe;
+    background-color: #000000;
+    color: #00BFFF;
     border: 1px solid #888;
     left: 50%;
     top: 50%;
@@ -175,14 +177,18 @@ title.b {
     height: 80%;
     padding: 20px 50px 20px 20px;
     overflow: auto;
+    text-align: center;
 }
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: #000000;
+    color: #00BFFF;
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
+    font-family: 'Doppio One';
+    text-align: center;
 }
 
 /* The Close Button */
@@ -212,4 +218,61 @@ title.b {
     color: #000;
     text-decoration: none;
     cursor: pointer;
+}
+
+.select{
+    font-family: 'Doppio One';
+}
+
+
+
+/*checkboxes styling*/
+/* The container */
+.container {
+    display: block;
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 12px;
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    box-align: center;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 15px;
+    width: 15px;
+    background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+    background-color: red;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+    display: block;
 }
